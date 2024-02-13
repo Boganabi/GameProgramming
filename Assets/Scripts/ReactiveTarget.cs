@@ -9,6 +9,12 @@ public class ReactiveTarget : MonoBehaviour
     // in the future we want to only call this function once, so we dont get multiple "deaths"
     public void ReactToHit()
     {
+        // if we have wandering ai script, set its alive state
+        WanderingAI behavior = GetComponent<WanderingAI>();
+        if (behavior != null)
+        {
+            behavior.SetAlive(false);
+        }
         StartCoroutine(Die());
     }
 
