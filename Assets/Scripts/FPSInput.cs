@@ -24,6 +24,8 @@ public class FPSInput : MonoBehaviour
 
         //transform.Translate(deltaX, 0, deltaZ);
 
+        // possible modification: create a boolean that will stop player movement if health is 0
+
         // instead of using the above to move the character, we can simply use the character controller
         float deltaX = Input.GetAxis("Horizontal") * speed;
         float deltaZ = Input.GetAxis("Vertical") * speed;

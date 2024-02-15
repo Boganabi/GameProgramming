@@ -27,7 +27,8 @@ public class Fireball : MonoBehaviour
         // if its not null, say the player was hit
         if(player != null)
         {
-            Debug.Log("Player hit!");
+            // Debug.Log("Player hit!");
+            player.Hurt(damage);
         }
 
         // destory this game object

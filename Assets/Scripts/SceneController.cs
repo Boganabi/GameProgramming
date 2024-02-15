@@ -9,6 +9,8 @@ public class SceneController : MonoBehaviour
     [SerializeField] GameObject enemyPrefab; // the [SerializeField] tag makes this private variable show in the inspector, as a normal private variable wont show
 
     // private variable containing reference to enemy instance in the scene
+    // could make this an array to spawn multiple, but need a number to keep track of how many there are
+    // consider using object pooling!
     private GameObject enemy;
 
     private float cooldownForSpawning = 3f;
