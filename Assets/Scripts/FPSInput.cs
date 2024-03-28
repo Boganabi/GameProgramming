@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FPSInput : MonoBehaviour
-{
+public class FPSInput : MonoBehaviour {
 
     public float speed = 3f;
     public float gravity = -9.8f;
@@ -11,14 +10,12 @@ public class FPSInput : MonoBehaviour
     private CharacterController charController;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         charController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         //float deltaX = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
         //float deltaZ = Input.GetAxis("Vertical") * speed * Time.deltaTime;
 

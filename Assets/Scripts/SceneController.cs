@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneController : MonoBehaviour
-{
+public class SceneController : MonoBehaviour {
 
     // private variable assigned in the inspector window with what needs to spawn
     [SerializeField] GameObject enemyPrefab; // the [SerializeField] tag makes this private variable show in the inspector, as a normal private variable wont show
@@ -17,8 +16,7 @@ public class SceneController : MonoBehaviour
     private float timeSinceLastSpawn = 0;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         // spawn one at start of game
         enemy = Instantiate(enemyPrefab) as GameObject;
         enemy.transform.position = new Vector3(0, 1, 0);
@@ -28,12 +26,10 @@ public class SceneController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         // if there isn't an enemy, spawn one
-        if(enemy == null)
-        {
-            if(timeSinceLastSpawn >= cooldownForSpawning) // delay 3 seconds before spawning new one
+        if (enemy == null) {
+            if (timeSinceLastSpawn >= cooldownForSpawning) // delay 3 seconds before spawning new one
             {
                 enemy = Instantiate(enemyPrefab) as GameObject;
                 enemy.transform.position = new Vector3(0, 1, 0);

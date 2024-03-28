@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class RayShooter : MonoBehaviour
-{
+public class RayShooter : MonoBehaviour {
 
     // store reference to camera
     private Camera cam;
@@ -14,22 +14,19 @@ public class RayShooter : MonoBehaviour
     public bool useNormalGun = true; // change this in the inspector
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         cam = GetComponent<Camera>();
 
         // hide cursor in center of screen
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (useNormalGun)
-        {
+    void Update() {
+        if (useNormalGun) {
             // run when player clicks left mouse button
-            if (Input.GetMouseButtonDown(0)) // if using GetMouseButton(0) instead, it will spawn dozens of spheres every click instead of 1
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) // if using GetMouseButton(0) instead, it will spawn dozens of spheres every click instead of 1
             {
                 // store location of midpoint of the screen
                 Vector3 point = new Vector3(cam.pixelWidth / 2, cam.pixelHeight / 2, 0);
@@ -39,17 +36,15 @@ public class RayShooter : MonoBehaviour
 
                 // create raycast hit object to figure out where the ray hit
                 RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
-                {
+                if (Physics.Raycast(ray, out hit)) {
                     handleShot(hit);
                 }
             }
         }
-        else
-        {
+        else {
             // the below will be the machine gun code
             timeSinceLastShot += Time.deltaTime;
-            if (Input.GetMouseButton(0)) // if using GetMouseButton(0) instead, it will spawn dozens of spheres every click instead of 1
+            if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) // if using GetMouseButton(0) instead, it will spawn dozens of spheres every click instead of 1
             {
                 // store location of midpoint of the screen
                 Vector3 point = new Vector3(cam.pixelWidth / 2, cam.pixelHeight / 2, 0);
@@ -59,10 +54,8 @@ public class RayShooter : MonoBehaviour
 
                 // create raycast hit object to figure out where the ray hit
                 RaycastHit hit;
-                if (timeSinceLastShot > cooldown)
-                {
-                    if (Physics.Raycast(ray, out hit))
-                    {
+                if (timeSinceLastShot > cooldown) {
+                    if (Physics.Raycast(ray, out hit)) {
                         handleShot(hit);
                     }
                     timeSinceLastShot = 0;
@@ -73,8 +66,7 @@ public class RayShooter : MonoBehaviour
 
     // helper function so that both the machine gun and regular gun have the same code
     // you could copy this into the update function if you want to only use one type of gun
-    private void handleShot(RaycastHit hit)
-    {
+    private void handleShot(RaycastHit hit) {
         // debug print where the ray hit
         // Debug.Log("Hit: " + hit.point);
 
@@ -85,21 +77,18 @@ public class RayShooter : MonoBehaviour
 
         // if ray hits an enemy (target not null), indicate it was hit
         // otherwise, place a sphere
-        if (target != null)
-        {
+        if (target != null) {
             // Debug.Log("Target hit!");
             target.ReactToHit();
         }
-        else
-        {
+        else {
             StartCoroutine(SphereIndicator(hit.point));
         }
     }
 
     // OnGUI method to draw crosshairs
     // I believe this is called every time the screen refreshes, sometimes more than once a frame
-    private void OnGUI()
-    {
+    private void OnGUI() {
         // font size
         int size = 36;
 
@@ -109,15 +98,19 @@ public class RayShooter : MonoBehaviour
 
         // draw crosshairs as text
         GUI.Label(new Rect(posX, posY, size, size), "*");
+
+        // draw a button
+        if (GUI.Button(new Rect(10, 10, 180, 20), "Click here for a free iPod!")) {
+            Debug.Log("Button has been clicked!");
+        }
     }
 
     // a coroutine to place sphere at coords then disappear after 1 second
-    private IEnumerator SphereIndicator(Vector3 pos)
-    {
+    private IEnumerator SphereIndicator(Vector3 pos) {
         // create new gameobject of a sphere
         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
-        sphere.transform.localScale = Vector3.one * 0.01f; // change this value if you want a bigger sphere
+        sphere.transform.localScale = Vector3.one * 1.0f; // change this value if you want a bigger sphere
 
         // place at given position
         sphere.transform.position = pos;
